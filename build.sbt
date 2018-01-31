@@ -212,7 +212,10 @@ lazy val zincPersist = (project in internalPath / "zinc-persist")
     name := "zinc Persist",
     libraryDependencies += sbinary,
     compileOrder := sbt.CompileOrder.Mixed,
-    PB.targets in Compile := List(scalapb.gen() -> (sourceManaged in Compile).value),
+    PB.targets in Compile := List(
+      scalapb.gen() -> (sourceManaged in Compile).value,
+      protoc_lint.ProtocLint() -> (sourceManaged in Compile).value
+    ),
     mimaSettings,
   )
 
