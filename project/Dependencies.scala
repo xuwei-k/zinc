@@ -10,7 +10,7 @@ object Dependencies {
   val scala213 = "2.13.0"
 
   private val ioVersion = nightlyVersion.getOrElse("1.3.0-M12")
-  private val utilVersion = nightlyVersion.getOrElse("1.3.0-M8")
+  private val utilVersion = nightlyVersion.getOrElse("1.3.0-M10")
 
   private val sbtIO = "org.scala-sbt" %% "io" % ioVersion
 
@@ -21,7 +21,7 @@ object Dependencies {
   private val utilInterface = "org.scala-sbt" % "util-interface" % utilVersion
   private val utilScripted = "org.scala-sbt" %% "util-scripted" % utilVersion
 
-  val launcherInterface = "org.scala-sbt" % "launcher-interface" % "1.0.0"
+  val launcherInterface = "org.scala-sbt" % "launcher-interface" % "1.0.4"
 
   def getSbtModulePath(key: String, name: String) = {
     val localProps = new java.util.Properties()
@@ -65,11 +65,11 @@ object Dependencies {
   val scalaCompiler = Def.setting { "org.scala-lang" % "scala-compiler" % scalaVersion.value }
 
   val parserCombinator = "org.scala-lang.modules" %% "scala-parser-combinators" % "1.1.2"
-  val sbinary = "org.scala-sbt" %% "sbinary" % "0.4.4"
-  val silencerPlugin = "com.github.ghik" %% "silencer-plugin" % "1.2"
+  val sbinary = "org.scala-sbt" %% "sbinary" % "0.5.0"
+  val silencerPlugin = "com.github.ghik" %% "silencer-plugin" % "1.2.1"
   val scalaCheck = "org.scalacheck" %% "scalacheck" % "1.14.0"
   val scalatest = "org.scalatest" %% "scalatest" % "3.0.8"
-  val junit = "junit" % "junit" % "4.11"
+  val junit = "junit" % "junit" % "4.12"
   val sjsonnew = Def.setting {
     "com.eed3si9n" %% "sjson-new-core" % contrabandSjsonNewVersion.value
   }
