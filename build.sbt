@@ -76,7 +76,7 @@ def commonSettings: Seq[Setting[_]] = Seq(
   // Override the version that scalapb depends on. This adds an explicit dependency on
   // protobuf-java. This will cause sbt to evict the older version that is used by
   // scalapb-runtime.
-  libraryDependencies += "com.google.protobuf" % "protobuf-java" % "3.7.0"
+  libraryDependencies += "com.google.protobuf" % "protobuf-java" % "3.7.1"
 )
 
 def compilerVersionDependentScalacOptions: Seq[Setting[_]] = Seq(
@@ -418,8 +418,8 @@ lazy val zincBenchmarks = (project in internalPath / "zinc-benchmarks")
     noPublish,
     name := "Benchmarks of Zinc and the compiler bridge",
     libraryDependencies ++= Seq(
-      "org.eclipse.jgit" % "org.eclipse.jgit" % "4.6.0.201612231935-r",
-      "net.openhft" % "affinity" % "3.0.6"
+      "org.eclipse.jgit" % "org.eclipse.jgit" % "4.6.1.201703071140-r",
+      "net.openhft" % "affinity" % "3.1.11"
     ),
     scalaVersion := scala212,
     crossScalaVersions := Seq(scala212),
