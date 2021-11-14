@@ -239,7 +239,7 @@ lazy val zincTesting = (projectMatrix in internalPath / "zinc-testing")
     name := "zinc Testing",
     baseSettings,
     noPublish,
-    libraryDependencies ++= Seq(scalaCheck, scalatest, junit, verify, sjsonnewScalaJson.value)
+    libraryDependencies ++= Seq(scalaCheck, scalatest, verify, sjsonnewScalaJson.value)
   )
   .jvmPlatform(scalaVersions = List(scala212, scala213))
   .configure(addSbtIO, addSbtUtilLogging)

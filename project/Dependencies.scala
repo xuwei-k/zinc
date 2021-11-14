@@ -72,10 +72,9 @@ object Dependencies {
 
   val parserCombinator = "org.scala-lang.modules" %% "scala-parser-combinators" % "1.1.2"
   val sbinary = "org.scala-sbt" %% "sbinary" % "0.5.1"
-  val scalaCheck = "org.scalacheck" %% "scalacheck" % "1.14.0"
-  val scalatest = "org.scalatest" %% "scalatest" % "3.2.0"
-  val junit = "junit" % "junit" % "4.12"
-  val verify = "com.eed3si9n.verify" %% "verify" % "0.2.0"
+  val scalaCheck = "org.scalacheck" %% "scalacheck" % "1.15.4"
+  val scalatest = "org.scalatest" %% "scalatest" % "3.2.10"
+  val verify = "com.eed3si9n.verify" %% "verify" % "1.0.0"
   val sjsonnew = Def.setting {
     "com.eed3si9n" %% "sjson-new-core" % contrabandSjsonNewVersion.value
   }
@@ -97,7 +96,6 @@ object Dependencies {
         scalaCheck % Test,
         scalatest % Test,
         verify % Test,
-        junit % Test
       )
     )
 }
