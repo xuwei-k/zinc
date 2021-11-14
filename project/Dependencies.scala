@@ -9,21 +9,22 @@ object Dependencies {
   val scala211 = "2.11.12"
   val scala212 = "2.12.15"
   val scala213 = "2.13.6"
+  val scala3 = "3.1.0"
   val defaultScalaVersion = scala212
-  val allScalaVersions = Seq(defaultScalaVersion, scala210, scala211, scala213)
-  val scala212_213 = Seq(defaultScalaVersion, scala213)
+  val allScalaVersions = Seq(defaultScalaVersion, scala210, scala211, scala213, scala3)
+  val scala212_213 = Seq(defaultScalaVersion, scala213, scala3)
 
   private val ioVersion = nightlyVersion.getOrElse("1.6.0-M1")
   private val utilVersion = nightlyVersion.getOrElse("1.6.0-M1")
 
-  private val sbtIO = "org.scala-sbt" %% "io" % ioVersion
+  private val sbtIO = "org.scala-sbt" %% "io" % ioVersion cross CrossVersion.for3Use2_13
 
-  private val utilLogging = "org.scala-sbt" %% "util-logging" % utilVersion
-  private val utilControl = "org.scala-sbt" %% "util-control" % utilVersion
-  private val utilRelation = "org.scala-sbt" %% "util-relation" % utilVersion
-  private val utilTracking = "org.scala-sbt" %% "util-tracking" % utilVersion
+  private val utilLogging = "org.scala-sbt" %% "util-logging" % utilVersion cross CrossVersion.for3Use2_13
+  private val utilControl = "org.scala-sbt" %% "util-control" % utilVersion cross CrossVersion.for3Use2_13
+  private val utilRelation = "org.scala-sbt" %% "util-relation" % utilVersion cross CrossVersion.for3Use2_13
+  private val utilTracking = "org.scala-sbt" %% "util-tracking" % utilVersion cross CrossVersion.for3Use2_13
   private val utilInterface = "org.scala-sbt" % "util-interface" % utilVersion
-  private val utilScripted = "org.scala-sbt" %% "util-scripted" % utilVersion
+  private val utilScripted = "org.scala-sbt" %% "util-scripted" % utilVersion cross CrossVersion.for3Use2_13
 
   val launcherInterface = "org.scala-sbt" % "launcher-interface" % "1.1.3"
 
@@ -68,19 +69,22 @@ object Dependencies {
     addSbtModule(p, sbtUtilPath, "utilTracking", utilTracking)
 
   val scalaLibrary = Def.setting { "org.scala-lang" % "scala-library" % scalaVersion.value }
-  val scalaCompiler = Def.setting { "org.scala-lang" % "scala-compiler" % scalaVersion.value }
+  val scalaCompiler = Def.setting {
+    val v = if (scalaBinaryVersion.value == "3") scala213 else scalaVersion.value
+    "org.scala-lang" % "scala-compiler" % v
+  }
 
-  val parserCombinator = "org.scala-lang.modules" %% "scala-parser-combinators" % "1.1.2"
-  val sbinary = "org.scala-sbt" %% "sbinary" % "0.5.1"
-  val scalaCheck = "org.scalacheck" %% "scalacheck" % "1.14.0"
-  val scalatest = "org.scalatest" %% "scalatest" % "3.2.0"
+  val parserCombinator = "org.scala-lang.modules" %% "scala-parser-combinators" % "2.0.0"
+  val sbinary = "org.scala-sbt" %% "sbinary" % "0.5.1" cross CrossVersion.for3Use2_13
+  val scalaCheck = "org.scalacheck" %% "scalacheck" % "1.15.4"
+  val scalatest = "org.scalatest" %% "scalatest" % "3.2.10"
   val junit = "junit" % "junit" % "4.12"
-  val verify = "com.eed3si9n.verify" %% "verify" % "0.2.0"
+  val verify = "com.eed3si9n.verify" %% "verify" % "1.0.0"
   val sjsonnew = Def.setting {
-    "com.eed3si9n" %% "sjson-new-core" % contrabandSjsonNewVersion.value
+    "com.eed3si9n" %% "sjson-new-core" % contrabandSjsonNewVersion.value cross CrossVersion.for3Use2_13
   }
   val sjsonnewScalaJson = Def.setting {
-    "com.eed3si9n" %% "sjson-new-scalajson" % contrabandSjsonNewVersion.value
+    "com.eed3si9n" %% "sjson-new-scalajson" % contrabandSjsonNewVersion.value cross CrossVersion.for3Use2_13
   }
   val zeroAllocationHashing = "net.openhft" % "zero-allocation-hashing" % "0.10.1"
 

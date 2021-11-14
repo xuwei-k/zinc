@@ -74,7 +74,7 @@ private[sbt] object Parser {
 
       val attributes = array(in.readUnsignedShort())(parseAttribute())
 
-      lazy val sourceFile =
+      val sourceFile =
         for (sourceFileAttribute <- attributes.find(_.isSourceFile))
           yield toUTF8(entryIndex(sourceFileAttribute))
 

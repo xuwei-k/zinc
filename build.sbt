@@ -91,13 +91,6 @@ Global / semanticdbVersion := "4.4.20"
 ThisBuild / Test / fork := true
 
 def baseSettings: Seq[Setting[_]] = Seq(
-  resolvers += Resolver.typesafeIvyRepo("releases"),
-  resolvers += Resolver.sonatypeRepo("snapshots"),
-  resolvers += "bintray-sbt-maven-releases" at "https://dl.bintray.com/sbt/maven-releases/",
-  resolvers += Resolver.url(
-    "bintray-sbt-ivy-snapshots",
-    url("https://dl.bintray.com/sbt/ivy-snapshots/")
-  )(Resolver.ivyStylePatterns),
   testOptions += Tests.Argument(TestFrameworks.ScalaCheck, "-w", "1", "-verbosity", "2"),
   testFrameworks += new TestFramework("verify.runner.Framework"),
   compile / javacOptions ++= Seq("-Xlint", "-Xlint:-serial"),
@@ -241,7 +234,7 @@ lazy val zincTesting = (projectMatrix in internalPath / "zinc-testing")
     noPublish,
     libraryDependencies ++= Seq(scalaCheck, scalatest, junit, verify, sjsonnewScalaJson.value)
   )
-  .jvmPlatform(scalaVersions = List(scala212, scala213))
+  .jvmPlatform(scalaVersions = scala212_213)
   .configure(addSbtIO, addSbtUtilLogging)
 
 lazy val zincCompile = (projectMatrix in zincRootPath / "zinc-compile")
@@ -269,7 +262,7 @@ lazy val zincPersist = (projectMatrix in internalPath / "zinc-persist")
     libraryDependencies ++= {
       scalaPartialVersion.value match {
         case Some((2, major)) if major >= 13 =>
-          List("org.scala-lang.modules" %% "scala-parallel-collections" % "0.2.0")
+          List("org.scala-lang.modules" %% "scala-parallel-collections" % "1.0.4")
         case _ =>
           List()
       }
@@ -361,7 +354,7 @@ lazy val zincCore = (projectMatrix in internalPath / "zinc-core")
     libraryDependencies ++= {
       scalaPartialVersion.value match {
         case Some((2, major)) if major >= 13 =>
-          List("org.scala-lang.modules" %% "scala-parallel-collections" % "0.2.0")
+          List("org.scala-lang.modules" %% "scala-parallel-collections" % "1.0.4")
         case _ =>
           List()
       }
@@ -500,7 +493,7 @@ lazy val compilerBridge = (projectMatrix in internalPath / "compiler-bridge")
     baseSettings,
     compilerVersionDependentScalacOptions,
     // We need this for import Compat._
-    Compile / scalacOptions --= Seq("-Ywarn-unused-import", "-Xfatal-warnings"),
+    Compile / scalacOptions --= Seq("-Ywarn-unused-import"),
     Compile / scalacOptions ++= (scalaVersion.value match {
       case VersionNumber(Seq(2, 12, _*), _, _) =>
         List("-Ywarn-unused:-imports,-locals,-implicits,-explicits,-privates")
@@ -610,7 +603,7 @@ lazy val zincClasspath = (projectMatrix in internalPath / "zinc-classpath")
       exclude[IncompatibleMethTypeProblem]("sbt.internal.inc.classpath.NativeCopyConfig.*"),
     ),
   )
-  .jvmPlatform(scalaVersions = scala212_213)
+  .jvmPlatform(scalaVersions = List(scala212, scala213))
   .configure(addBaseSettingsAndTestDeps, addSbtIO)
 
 // class file reader and analyzer
