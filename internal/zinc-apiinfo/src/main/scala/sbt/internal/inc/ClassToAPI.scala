@@ -20,6 +20,7 @@ import inc.classfile.ClassFile
 import xsbti.api
 import xsbti.api.SafeLazyProxy
 import collection.mutable
+import collection.immutable.ArraySeq
 import sbt.io.IO
 import sbt.util.Logger
 

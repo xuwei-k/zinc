@@ -16,6 +16,7 @@ package inc
 import java.io.File
 import xsbti.ArtifactInfo.ScalaOrganization
 import sbt.io.IO
+import scala.collection.immutable.ArraySeq
 import scala.language.reflectiveCalls
 import sbt.internal.inc.classpath.ClasspathUtil
 
@@ -266,7 +267,9 @@ object ScalaInstance {
 
   /** Return all the required Scala jars from a path `scalaHome`. */
   def allJars(scalaHome: File): Seq[File] =
-    IO.listFiles(scalaLib(scalaHome)).filter(f => !blacklist(f.getName))
+    ArraySeq.unsafeWrapArray(
+      IO.listFiles(scalaLib(scalaHome)).filter(f => !blacklist(f.getName))
+    )
 
   private[this] def scalaLib(scalaHome: File): File =
     new File(scalaHome, "lib")

@@ -106,7 +106,7 @@ private[sbt] object Parser {
           in.readUnsignedShort(),
           toString(in.readUnsignedShort()),
           toString(in.readUnsignedShort()),
-          array(in.readUnsignedShort())(parseAttribute())
+          IndexedSeq.tabulate(in.readUnsignedShort())(_ => parseAttribute())
         )
       private def parseAttribute() = {
         val nameIndex = in.readUnsignedShort()

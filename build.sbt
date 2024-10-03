@@ -50,7 +50,6 @@ ThisBuild / version := {
 ThisBuild / versionScheme := Some("early-semver")
 ThisBuild / organization := "org.scala-sbt"
 ThisBuild / licenses := List(("Apache-2.0", url("https://www.apache.org/licenses/LICENSE-2.0")))
-ThisBuild / scalafmtOnCompile := !(Global / insideCI).value
 ThisBuild / Test / scalafmtOnCompile := !(Global / insideCI).value
 ThisBuild / scmInfo := Some(
   ScmInfo(url("https://github.com/sbt/zinc"), "git@github.com:sbt/zinc.git")

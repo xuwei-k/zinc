@@ -10,7 +10,7 @@ object HouseRulesPlugin extends AutoPlugin {
   override def projectSettings: Seq[Def.Setting[?]] = baseSettings
 
   lazy val baseSettings: Seq[Def.Setting[?]] = Seq(
-    scalacOptions ++= Seq("-encoding", "utf8"),
+    scalacOptions ++= Seq("-encoding", "utf8", "-Wconf:msg=LowPriorityImplicits2:error"),
     scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked"),
     scalacOptions += "-language:higherKinds",
     scalacOptions += "-language:implicitConversions",

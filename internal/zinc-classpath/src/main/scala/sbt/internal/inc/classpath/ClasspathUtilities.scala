@@ -20,6 +20,7 @@ import sbt.io.{ IO, PathFinder }
 import xsbti.compile.ScalaInstance
 import java.io.InputStream
 import scala.annotation.tailrec
+import scala.collection.immutable.ArraySeq
 import scala.util.control.Exception.catching
 
 object ClasspathUtil {
@@ -81,7 +82,10 @@ object ClasspathUtil {
       classpath: Seq[Path],
       instance: ScalaInstance
   ): Map[String, String] = {
-    createClasspathResources(classpath, instance.libraryJars.map(_.toPath))
+    createClasspathResources(
+      classpath,
+      ArraySeq.unsafeWrapArray(instance.libraryJars.map(_.toPath))
+    )
   }
 
   def createClasspathResources(appPaths: Seq[Path], bootPaths: Seq[Path]): Map[String, String] = {
