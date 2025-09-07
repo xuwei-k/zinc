@@ -18,7 +18,7 @@ object Scripted {
   case class ScriptedTestPage(page: Int, total: Int)
   def scriptedParser(scriptedBase: File): Parser[Seq[String]] = {
     val scriptedFiles: NameFilter = ("test": NameFilter) | "pending"
-    val pairs = (scriptedBase * AllPassFilter * AllPassFilter * scriptedFiles).get map {
+    val pairs = (scriptedBase * AllPassFilter * AllPassFilter * scriptedFiles).get() map {
       (f: File) =>
         val p = f.getParentFile
         (p.getParentFile.getName, p.getName)
@@ -79,7 +79,7 @@ object Scripted {
   ): Unit = {
     val noJLine =
       new classpath.FilteredLoader(scriptedSbtInstance.loader, "xsbti." :: "jline." :: Nil)
-    val loader = classpath.ClasspathUtil.toLoader(scriptedSbtClasspath.files, noJLine)
+    val loader: ClassLoader = null
     val bridgeClass = Class.forName("sbt.inc.ScriptedMain$", true, loader)
     val bridge = bridgeClass.getField("MODULE$").get(null).asInstanceOf[ScriptedMain]
     try {

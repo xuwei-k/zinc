@@ -44,7 +44,8 @@ object ZincBuildUtil {
       genTestResTask := {
         def resurcesDir = (file("zinc") / "src" / "test" / "resources" / "bin").getAbsoluteFile
         val target = resurcesDir / s"${name.value}.$ext"
-        IO.copyFile((Compile / packageBin).value, target)
+        val c = fileConverter.value
+        IO.copyFile(c.toPath((Compile / packageBin).value).toFile, target)
         Seq(target)
       }
     ) ++ relaxNon212
@@ -65,22 +66,4 @@ object ZincBuildUtil {
     }
   )
 
-  import com.typesafe.tools.mima.core._
-  import com.typesafe.tools.mima.core.ProblemFilters._
-  def excludeInternalProblems = {
-    Seq(
-      exclude[DirectMissingMethodProblem]("sbt.internal.*"),
-      exclude[IncompatibleSignatureProblem]("sbt.internal.*"),
-      exclude[IncompatibleMethTypeProblem]("sbt.internal.*"),
-      exclude[ReversedMissingMethodProblem]("sbt.internal.*"),
-      exclude[MissingClassProblem]("sbt.internal.*"),
-      exclude[IncompatibleResultTypeProblem]("sbt.internal.*"),
-      exclude[MissingTypesProblem]("sbt.internal.*"),
-      exclude[InheritedNewAbstractMethodProblem](
-        "sbt.internal.*"
-      ),
-      exclude[FinalClassProblem]("sbt.internal.*"),
-      exclude[DirectAbstractMethodProblem]("sbt.internal.*"),
-    )
-  }
 }
