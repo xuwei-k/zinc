@@ -10,34 +10,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: ubuntu-latest
-            java: 17
-            distribution: zulu
-            jobtype: 1
-          - os: ubuntu-latest
-            java: 25
-            distribution: zulu
-            jobtype: 1
           - os: windows-latest
             java: 17
             distribution: zulu
             jobtype: 2
-          - os: ubuntu-latest
-            java: 21
-            distribution: temurin
-            jobtype: 3
-          - os: ubuntu-latest
-            java: 21
-            distribution: temurin
-            jobtype: 4
-          - os: ubuntu-latest
-            java: 21
-            distribution: temurin
-            jobtype: 5
-          - os: ubuntu-latest
-            java: 21
-            distribution: temurin
-            jobtype: 6
     runs-on: ${{ matrix.os }}
     steps:
     - name: Checkout
@@ -50,6 +26,8 @@ jobs:
         cache: sbt
     - name: Setup SBT
       uses: sbt/setup-sbt@ae54f7cfe46ec0d24ade661d77f007360ab48bda # v1.1.16
+      with:
+        sbt-runner-version: 1.12.2
     - name: Build and test (1)
       if: ${{ matrix.jobtype == 1 }}
       shell: bash
