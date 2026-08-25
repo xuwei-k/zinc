@@ -14,8 +14,10 @@ package internal
 package inc
 
 import java.io.{ BufferedInputStream, InputStream }
-import java.nio.file.{ Files, Path }
-import sbt.internal.util.hashing.Hashing
+import java.nio.{ ByteBuffer, ByteOrder }
+import java.nio.channels.FileChannel
+import java.nio.file.{ Files, Path, StandardOpenOption }
+import sbt.internal.util.hashing.{ FarmNaSeedlessHash64, Hashing }
 import sbt.io.Hash
 
 object HashUtil {
@@ -33,7 +35,18 @@ object HashUtil {
     val largeFileLimit = 10 * 1024 * 1024
 
     if (Files.size(path) < largeFileLimit)
-      farmHash(Files.readAllBytes(path))
+      scala.util.Using.resource(
+        FileChannel.open(path, StandardOpenOption.READ)
+      ) { channel =>
+        val size = channel.size()
+        val buf = channel.map(FileChannel.MapMode.READ_ONLY, 0, size)
+        buf.order(ByteOrder.LITTLE_ENDIAN)
+        FarmNaSeedlessHash64.byteBuffer.hash(
+          buf,
+          0,
+          size.toInt
+        )
+      }
     else
       farmHash(Hash(path.toFile))
   }
